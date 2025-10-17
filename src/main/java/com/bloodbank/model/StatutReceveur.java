@@ -5,7 +5,8 @@ package com.bloodbank.model;
  */
 public enum StatutReceveur {
     EN_ATTENTE("En attente"),
-    SATISFAIT("Satisfait");
+    SATISFAIT("Satisfait"),
+    SERVI("Servi");
     
     private final String description;
     

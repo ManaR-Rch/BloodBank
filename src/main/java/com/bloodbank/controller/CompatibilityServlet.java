@@ -1,6 +1,6 @@
 package com.bloodbank.controller;
 
-import com.bloodbank.service.CompatibilityService;
+import com.bloodbank.service.CompatibiliteService;
 import com.bloodbank.service.DonneurService;
 import com.bloodbank.service.ReceveurService;
 import com.bloodbank.model.Donneur;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CompatibilityServlet extends HttpServlet {
 
-    private CompatibilityService compatibilityService = new CompatibilityService();
+    private CompatibiliteService compatibilityService = new CompatibiliteService();
     private DonneurService donneurService = new DonneurService();
     private ReceveurService receveurService = new ReceveurService();
 

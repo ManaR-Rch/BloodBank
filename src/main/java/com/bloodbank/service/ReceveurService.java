@@ -22,6 +22,10 @@ public class ReceveurService {
         if (receveur.getStatut() == null) {
             receveur.setStatut(StatutReceveur.EN_ATTENTE);
         }
+        // Définir la priorité par défaut si manquante
+        if (receveur.getPriorite() == null) {
+            receveur.setPriorite(determinerPriorite(receveur));
+        }
         receveurDAO.ajouter(receveur);
     }
     
@@ -57,6 +61,17 @@ public class ReceveurService {
         Receveur receveur = receveurDAO.findById(receveurId);
         if (receveur != null) {
             receveur.setStatut(StatutReceveur.SATISFAIT);
+            receveurDAO.update(receveur);
+        }
+    }
+
+    /**
+     * Marquer un receveur comme servi après affectation d'un donneur
+     */
+    public void marquerServi(Long receveurId) {
+        Receveur receveur = receveurDAO.findById(receveurId);
+        if (receveur != null) {
+            receveur.setStatut(StatutReceveur.SERVI);
             receveurDAO.update(receveur);
         }
     }
