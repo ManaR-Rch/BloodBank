@@ -13,6 +13,7 @@
     <li><a href="receveurs">Liste des receveurs</a></li>
     <li><a href="ajouterReceveur.jsp">Ajouter un receveur</a></li>
     <li><a href="compatibility">Compatibilités</a></li>
+    <li><a href="affectation">Affectation</a></li>
   </ul>
 </body>
 </html>

@@ -40,4 +40,14 @@
         <url-pattern>/compatibility</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AffectationServlet</servlet-name>
+        <servlet-class>com.bloodbank.controller.AffectationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AffectationServlet</servlet-name>
+        <url-pattern>/affectation</url-pattern>
+    </servlet-mapping>
+
 </web-app>
