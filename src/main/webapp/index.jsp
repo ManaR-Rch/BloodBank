@@ -3,17 +3,35 @@
 <html>
 <head>
     <title>Accueil - BloodBank</title>
-</head>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style> .hero h1 { color: var(--primary); } </style>
+  </head>
 <body>
-<h1>BloodBank</h1>
-<p>Bienvenue. Choisissez une section :</p>
-<ul>
-    <li><a href="donneurs">Liste des donneurs</a></li>
-    <li><a href="ajouterDonneur.jsp">Ajouter un donneur</a></li>
-    <li><a href="receveurs">Liste des receveurs</a></li>
-    <li><a href="ajouterReceveur.jsp">Ajouter un receveur</a></li>
-    <li><a href="compatibility">Compatibilités</a></li>
-    <li><a href="affectation">Affectation</a></li>
-  </ul>
+  <header class="app-header">
+    <div class="container row">
+      <a class="brand" href="index.jsp"><span class="dot"></span> BloodBank</a>
+      <nav class="nav">
+        <a href="donneurs">Donneurs</a>
+        <a href="ajouterDonneur.jsp">Ajouter Donneur</a>
+        <a href="receveurs">Receveurs</a>
+        <a href="ajouterReceveur.jsp">Ajouter Receveur</a>
+        <a href="compatibility">Compatibilités</a>
+        <a href="affectation">Affectation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container stack">
+    <section class="card hero center">
+      <h1>Bienvenue</h1>
+      <p class="muted">Gestion simple des donneurs, receveurs et compatibilités.</p>
+      <div class="spacer"></div>
+      <div>
+        <a class="btn btn-primary" href="donneurs">Voir Donneurs</a>
+        <a class="btn btn-success" href="receveurs">Voir Receveurs</a>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

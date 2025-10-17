@@ -1,0 +1,65 @@
+/* Global styles for BloodBank - simple, clean, responsive */
+:root {
+  --primary: #b30000; /* red */
+  --secondary: #2e8b57; /* green */
+  --bg: #f7f8fa;
+  --text: #222;
+  --muted: #6b7280;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: Arial, Helvetica, sans-serif; color: var(--text); background: var(--bg); line-height: 1.5; }
+
+.container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 24px; }
+
+/* Header */
+.app-header { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+.app-header .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--primary); text-decoration: none; }
+.brand .dot { width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; display: inline-block; }
+.nav { display: flex; gap: 10px; flex-wrap: wrap; }
+.nav a { text-decoration: none; color: var(--text); padding: 8px 12px; border-radius: 8px; border: 1px solid transparent; }
+.nav a:hover { border-color: var(--border); background: #fafafa; }
+
+/* Card/Section */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+.stack { display: grid; gap: 16px; }
+
+/* Buttons */
+.btn { display: inline-block; padding: 10px 16px; border-radius: 999px; border: 1px solid transparent; cursor: pointer; text-decoration: none; font-weight: 600; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { filter: brightness(0.95); }
+.btn-success { background: var(--secondary); color: white; }
+.btn-success:hover { filter: brightness(0.95); }
+.btn-outline { background: white; color: var(--text); border-color: var(--border); }
+.btn-outline:hover { background: #fafafa; }
+
+/* Forms */
+.form { display: grid; gap: 12px; max-width: 560px; }
+.form label { font-weight: 600; color: var(--muted); }
+.input, .select { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: white; }
+
+/* Lists/Tables */
+.list { list-style: none; padding: 0; margin: 0; }
+.list li { padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; border: 1px solid var(--border); background: #fafafa; }
+.badge-success { background: #e6fbef; color: var(--secondary); border-color: #bfead0; }
+.badge-warn { background: #fff7e6; color: #a86a00; border-color: #ffe1a6; }
+.badge-danger { background: #ffe9e9; color: var(--primary); border-color: #ffc2c2; }
+
+/* Helpers */
+.spacer { height: 12px; }
+.center { text-align: center; }
+.muted { color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .nav { gap: 6px; }
+  .container { padding: 16px; }
+}
+
+

@@ -2,26 +2,47 @@
 <html>
 <head>
     <title>Affectation Donneur → Receveur</title>
-</head>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
 <body>
+<header class="app-header">
+  <div class="container row">
+    <a class="brand" href="index.jsp"><span class="dot"></span> BloodBank</a>
+    <nav class="nav">
+      <a href="donneurs">Donneurs</a>
+      <a href="ajouterDonneur.jsp">Ajouter Donneur</a>
+      <a href="receveurs">Receveurs</a>
+      <a href="ajouterReceveur.jsp">Ajouter Receveur</a>
+      <a href="compatibility">Compatibilités</a>
+      <a href="affectation">Affectation</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container stack">
+<section class="card">
 <h2>Affectation d'un donneur à un receveur</h2>
-<p><a href="index.jsp">Accueil</a></p>
 
 <% String message = request.getParameter("message"); if (message != null) { %>
     <p><strong><%= message %></strong></p>
 <% } %>
 
-<ul>
+<ul class="list">
 <%
     java.util.List<com.bloodbank.model.Receveur> enAttente = (java.util.List<com.bloodbank.model.Receveur>) request.getAttribute("receveursEnAttente");
     if (enAttente != null && !enAttente.isEmpty()) {
         for (com.bloodbank.model.Receveur r : enAttente) {
 %>
     <li>
-        <%= r.getNom() %> <%= r.getPrenom() %> - <%= r.getGroupeSanguin() %> - Priorité: <%= r.getPriorite() %>
+        <div>
+          <strong><%= r.getNom() %> <%= r.getPrenom() %></strong>
+          <span class="badge"><%= r.getGroupeSanguin() %></span>
+          <span class="badge">Priorité: <%= r.getPriorite() %></span>
+        </div>
         <form action="affectation" method="post" style="display:inline; margin-left:10px;">
             <input type="hidden" name="receveurId" value="<%= r.getId() %>">
-            <button type="submit">Affecter un donneur</button>
+            <button class="btn btn-success" type="submit">Affecter un donneur</button>
         </form>
     </li>
 <%
@@ -33,6 +54,8 @@
     }
 %>
 </ul>
+</section>
+</main>
 
 </body>
 </html>
