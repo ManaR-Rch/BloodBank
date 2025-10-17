@@ -1,49 +1,88 @@
 package com.bloodbank.dao;
 
 import com.bloodbank.model.Donneur;
-import java.util.ArrayList;
+import com.bloodbank.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class DonneurDAO {
 
-    // Simulation base de données (en mémoire)
-    private static List<Donneur> donneurs = new ArrayList<>();
-    private static AtomicLong idCounter = new AtomicLong(1);
+    private SessionFactory sessionFactory;
+
+    public DonneurDAO() {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
     // Ajouter un donneur
-    public void ajouter(Donneur d) {
-        if (d.getId() == null) {
-            d.setId(idCounter.getAndIncrement());
+    public void ajouter(Donneur donneur) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(donneur);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
         }
-        donneurs.add(d);
     }
 
     // Retourner tous les donneurs
     public List<Donneur> getAll() {
-        return new ArrayList<>(donneurs);
+        try (Session session = sessionFactory.openSession()) {
+            Query<Donneur> query = session.createQuery("FROM Donneur", Donneur.class);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of(); // Liste vide en cas d'erreur
+        }
     }
     
     // Trouver un donneur par ID
     public Donneur findById(Long id) {
-        return donneurs.stream()
-                .filter(d -> id.equals(d.getId()))
-                .findFirst()
-                .orElse(null);
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Donneur.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     // Mettre à jour un donneur
     public void update(Donneur donneur) {
-        for (int i = 0; i < donneurs.size(); i++) {
-            if (donneurs.get(i).getId().equals(donneur.getId())) {
-                donneurs.set(i, donneur);
-                break;
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(donneur);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
+            e.printStackTrace();
         }
     }
     
     // Supprimer un donneur
     public void delete(Long id) {
-        donneurs.removeIf(d -> id.equals(d.getId()));
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Donneur donneur = session.get(Donneur.class, id);
+            if (donneur != null) {
+                session.delete(donneur);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 }

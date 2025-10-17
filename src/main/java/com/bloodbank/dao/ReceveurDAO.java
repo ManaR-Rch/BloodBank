@@ -1,49 +1,88 @@
 package com.bloodbank.dao;
 
 import com.bloodbank.model.Receveur;
-import java.util.ArrayList;
+import com.bloodbank.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ReceveurDAO {
 
-    // Simulation base de données (en mémoire)
-    private static List<Receveur> receveurs = new ArrayList<>();
-    private static AtomicLong idCounter = new AtomicLong(1);
+    private SessionFactory sessionFactory;
+
+    public ReceveurDAO() {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
     // Ajouter un receveur
-    public void ajouter(Receveur r) {
-        if (r.getId() == null) {
-            r.setId(idCounter.getAndIncrement());
+    public void ajouter(Receveur receveur) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(receveur);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
         }
-        receveurs.add(r);
     }
 
     // Retourner tous les receveurs
     public List<Receveur> getAll() {
-        return new ArrayList<>(receveurs);
+        try (Session session = sessionFactory.openSession()) {
+            Query<Receveur> query = session.createQuery("FROM Receveur", Receveur.class);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of(); // Liste vide en cas d'erreur
+        }
     }
     
     // Trouver un receveur par ID
     public Receveur findById(Long id) {
-        return receveurs.stream()
-                .filter(r -> id.equals(r.getId()))
-                .findFirst()
-                .orElse(null);
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Receveur.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     // Mettre à jour un receveur
     public void update(Receveur receveur) {
-        for (int i = 0; i < receveurs.size(); i++) {
-            if (receveurs.get(i).getId().equals(receveur.getId())) {
-                receveurs.set(i, receveur);
-                break;
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(receveur);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
+            e.printStackTrace();
         }
     }
     
     // Supprimer un receveur
     public void delete(Long id) {
-        receveurs.removeIf(r -> id.equals(r.getId()));
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Receveur receveur = session.get(Receveur.class, id);
+            if (receveur != null) {
+                session.delete(receveur);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 }

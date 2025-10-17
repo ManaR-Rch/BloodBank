@@ -17,14 +17,15 @@ public class DonneurService {
      * Ajouter un nouveau donneur avec validation métier
      */
     public void ajouterDonneur(Donneur donneur) {
-        // Validation métier avant ajout
-        if (estEligible(donneur)) {
-            donneur.setStatut(StatutDonneur.DISPO);
-            donneurDAO.ajouter(donneur);
-        } else {
+        // Statut par défaut = DISPONIBLE
+        donneur.setStatut(StatutDonneur.DISPO);
+        
+        // Vérifier l'éligibilité et ajuster le statut si nécessaire
+        if (!estEligible(donneur)) {
             donneur.setStatut(StatutDonneur.NON_ELIGIBLE);
-            donneurDAO.ajouter(donneur);
         }
+        
+        donneurDAO.ajouter(donneur);
     }
     
     /**
@@ -44,15 +45,14 @@ public class DonneurService {
     }
     
     /**
-     * Vérifier l'éligibilité d'un donneur selon les critères médicaux
+     * Vérifier l'éligibilité d'un donneur selon les règles simples
      */
     public boolean estEligible(Donneur donneur) {
-        // Critères d'éligibilité :
-        // - Âge entre 18 et 65 ans
-        // - Poids minimum 50 kg
-        // - Groupe sanguin valide
+        // Règles simples d'éligibilité :
+        // - Âge >= 18 ans
+        // - Poids >= 50 kg
         
-        if (donneur.getAge() < 18 || donneur.getAge() > 65) {
+        if (donneur.getAge() < 18) {
             return false;
         }
         
@@ -60,22 +60,7 @@ public class DonneurService {
             return false;
         }
         
-        if (!estGroupeSanguinValide(donneur.getGroupeSanguin())) {
-            return false;
-        }
-        
         return true;
-    }
-    
-    /**
-     * Vérifier si le groupe sanguin est valide
-     */
-    private boolean estGroupeSanguinValide(String groupeSanguin) {
-        return groupeSanguin != null && 
-               (groupeSanguin.equals("A+") || groupeSanguin.equals("A-") ||
-                groupeSanguin.equals("B+") || groupeSanguin.equals("B-") ||
-                groupeSanguin.equals("AB+") || groupeSanguin.equals("AB-") ||
-                groupeSanguin.equals("O+") || groupeSanguin.equals("O-"));
     }
     
     /**
